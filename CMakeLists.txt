@@ -12,8 +12,12 @@ set (CMAKE_PROJECT_VERSION_MINOR 0)
 set (CMAKE_PROJECT_VERSION_PATCH 0)
 set (CMAKE_PROJECT_VERSION "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}.${CMAKE_PROJECT_VERSION_PATCH}")
 
+ADD_DEFINITIONS (-Wall -g
+        -D__STDC_WANT_LIB_EXT2__=1)
+
+ENABLE_TESTING()
 find_package(PkgConfig)
-pkg_check_modules(PARTED REQUIRED libparted)
 
-
+add_subdirectory(app)
 add_subdirectory(demo)
+add_subdirectory(test)
