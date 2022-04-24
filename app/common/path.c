@@ -243,12 +243,11 @@ int path_open (PathCxt* pc, int flags, const char *path)
     if (!pc) {
         fd = open(path, flags);
     } else {
-        int fdx;
         int dir = path_get_dirfd(pc);
         if (dir < 0)
             return dir;
 
-        fdx = fd = openat(dir, path, flags);
+        fd = openat(dir, path, flags);
 
         if (fd < 0 && errno == ENOENT
             && pc->redirect_on_enoent
@@ -652,16 +651,12 @@ int path_write_string (PathCxt* pc, const char *str, const char *path)
     int rc, errsv;
     int fd;
 
-    puts ("0");
     fd = path_open(pc, O_WRONLY|O_CLOEXEC, path);
     if (fd < 0)
         return -errno;
 
-    puts ("1");
-
     rc = write_all(fd, str, strlen(str));
 
-    puts ("2");
     errsv = errno;
     close(fd);
     errno = errsv;
